@@ -10,6 +10,8 @@ class SolveMazes{
         MazeSolver Solver=new MazeSolver();
         System.out.println("Enter a file name or stop: ");
         fileName=input.nextLine();
+        //This is the main method that runs the MazeSolver class
+        //My professor said that a proper object oriented main method should mostly be code for running other classes
         while(!fileName.equals("stop"))
         {
             GridReader maze =new GridReader(fileName);
