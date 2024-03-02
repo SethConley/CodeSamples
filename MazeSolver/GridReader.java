@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.*;
 
+//This class is designed to read in the game file and store it in a 2D array
+//We coded it as a separate assignment, but it works well for Maze Solver
 public class GridReader{
     private char[][] grid;
     private String fileName;
@@ -18,6 +20,8 @@ public class GridReader{
         reader.close();
         grid=new char[inc][];
         inc=0;
+        //In order to get the dimentions of the array correct, I had to make two scanners, one for counting and
+        //one for actually reading in the file
         Scanner reader2=new Scanner(file);
         while(reader2.hasNext())
         {
@@ -29,6 +33,7 @@ public class GridReader{
     }
     public String toString()
     {
+        //This method just allows you to output the game board
         String string="";
         for(int i=0;i<grid.length;i++)
         {
@@ -46,6 +51,7 @@ public class GridReader{
     }
     public char[][] getCopy()
     {
+        //This method is meant to creat a deep copy of the game board
         char[][] copy=new char[grid.length][];
         for(int i=0;i<grid.length;i++)
         {
