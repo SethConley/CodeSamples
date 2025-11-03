@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  smartrecipe-db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./SmartRecipe.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    container_name: database
+
+  smartrecipe-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - smartrecipe-db
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_DATABASE}
+      - DB_PORT=${DB_PORT}
+    ports:
+      - "4000:4000"
+    command: nodemon server.js
+    volumes:
+      - .:/app
+
+  smartrecipe-frontend:
+    image: nginx:latest
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    ports:
+      - "3000:80"
+
+volumes:
+  postgres_data:
